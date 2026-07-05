@@ -1,9 +1,9 @@
 #!/bin/bash
 
-deploy() {
+clock() {
     local ip=$1
     local ring=$2
-    local PKG=$3
+    local PKG='clock'
 
     ssh -p 8022 ${ip} bash << EOF
         mkdir -p \${PREFIX}/var/service/${PKG}/log
@@ -18,7 +18,17 @@ EOF
 EOF
 }
 
-ip=${1:-'192.168.71.28'}
+boot() {
+    local ip=$1
+    ssh -p 8022 ${ip} "cat > \${HOME}/.termux/boot/start-services.sh" << 'EOF'
+#!/data/data/com.termux/files/usr/bin/sh
+termux-wake-lock
+. $PREFIX/etc/profile
+EOF
+    ssh -p 8022 ${ip} "chmod +x \${HOME}/.termux/boot/start-services.sh"
+}
+
+ip=${1:-'192.168.71.55'}
 ring=${2:-'Renatus.mp3'}
-PKG=${3:-'clock'}
-deploy ${ip} ${ring} $PKG
+clock ${ip} ${ring}
+boot ${ip}

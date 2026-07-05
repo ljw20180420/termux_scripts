@@ -1,6 +1,7 @@
 #TODO
 
 ```
+- [ ] Use https://github.com/python-zeroconf/python-zeroconf to broadcast ip
 - [ ] 思源码: developer.sjtu.edu.cn
 - [ ] 基于VPNservice的翻墙功能。（termux:API尚未更新VPNservice: https://github.com/termux/termux-api/issues/545）
 ```
