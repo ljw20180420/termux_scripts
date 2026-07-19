@@ -4,6 +4,12 @@ deploy() {
     local ip=$1
     local PKG=$2
 
+    ssh -p 8022 ${ip} "mkdir -p \${HOME}/.config/my_services/common"
+    ssh -p 8022 ${ip} "cat > \${HOME}/.config/my_services/common/parse.sh" < "common/parse.sh"
+
+    ssh -p 8022 ${ip} "mkdir -p \${HOME}/.config/my_services/${PKG}"
+    ssh -p 8022 ${ip} "cat > \${HOME}/.config/my_services/${PKG}/config.ini" < "${PKG}/config.ini"
+
     ssh -p 8022 ${ip} bash << EOF
         mkdir -p \${PREFIX}/var/service/${PKG}/log
         ln -sf \${PREFIX}/share/termux-services/svlogger \${PREFIX}/var/service/${PKG}/log/run
@@ -15,12 +21,6 @@ EOF
         SVDIR=\${PREFIX}/var/service sv down ${PKG}
         SVDIR=\${PREFIX}/var/service sv up ${PKG}
 EOF
-
-    ssh -p 8022 ${ip} "mkdir -p \${HOME}/.config/my_services/common"
-    ssh -p 8022 ${ip} "cat > \${HOME}/.config/my_services/common/parse.sh" < "common/parse.sh"
-
-    ssh -p 8022 ${ip} "mkdir -p \${HOME}/.config/my_services/${PKG}"
-    ssh -p 8022 ${ip} "cat > \${HOME}/.config/my_services/${PKG}/config.ini" < "${PKG}/config.ini"
 }
 
 boot() {

@@ -18,7 +18,9 @@ alarm_clock() {
     local ring=$1
     local snooze=$2
 
+    echo "${ring}"
     termux-media-player play "${ring}"
+    echo "${ring}"
     while true
     do
         answer=$(termux-dialog radio -v "pause,stop" -t clock | jq -r '.text')
@@ -35,7 +37,7 @@ alarm_clock() {
 
 source "${HOME}/.config/my_services/common/parse.sh"
 parse_config "${HOME}/.config/my_services/clock/config.ini"
-ring=$(envsubst <<<"${ring}")
+ring="$(envsubst <<<"${ring}")"
 
 while true
 do
