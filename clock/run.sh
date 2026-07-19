@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set_clock() {
-    # Example: set_clock '23:00'
     local time=$1
     local target_epoch current_epoch sleep_seconds one_day
     target_epoch=$(date -d "tomorrow ${time}" +%s)
@@ -19,7 +18,7 @@ alarm_clock() {
     local ring=$1
     local snooze=$2
 
-    termux-media-player play "${HOME}/storage/music/${ring}"
+    termux-media-player play "${ring}"
     while true
     do
         answer=$(termux-dialog radio -v "pause,stop" -t clock | jq -r '.text')
@@ -34,13 +33,13 @@ alarm_clock() {
     done
 }
 
-time=${1:-'23:00'}
-ring=${2:-'Renatus.mp3'}
-snooze=${3:-'300'}
+source "${HOME}/.config/my_services/common/parse.sh"
+parse_config "${HOME}/.config/my_services/clock/config.ini"
+ring=$(envsubst <<<"${ring}")
 
 while true
 do
     sleep_seconds=$(set_clock ${time})
     sleep $sleep_seconds
-    alarm_clock "${ring}" ${snooze}
+    alarm_clock "${ring}" "${snooze}"
 done
