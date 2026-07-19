@@ -8,10 +8,9 @@ clock() {
     ssh -p 8022 ${ip} bash << EOF
         mkdir -p \${PREFIX}/var/service/${PKG}/log
         ln -sf \${PREFIX}/share/termux-services/svlogger \${PREFIX}/var/service/${PKG}/log/run
-        mkdir -p \${HOME}/.config/${PKG}
 EOF
     ssh -p 8022 ${ip} "cat > \${PREFIX}/var/service/${PKG}/run" < ${PKG}.sh
-    ssh -p 8022 ${ip} "cat > \${HOME}/.config/${PKG}/${ring}" < ${ring}
+    ssh -p 8022 ${ip} "cat > \${HOME}/storage/music/${ring}" < ${ring}
     ssh -p 8022 ${ip} bash << EOF
         SVDIR=\${PREFIX}/var/service sv-enable ${PKG}
         chmod +x \${PREFIX}/var/service/${PKG}/run

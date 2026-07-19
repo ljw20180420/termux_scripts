@@ -19,7 +19,7 @@ alarm_clock() {
     local ring=$1
     local snooze=$2
 
-    termux-media-player play "${ring}"
+    termux-media-player play "${HOME}/storage/music/${ring}"
     while true
     do
         answer=$(termux-dialog radio -v "pause,stop" -t clock | jq -r '.text')
@@ -35,7 +35,7 @@ alarm_clock() {
 }
 
 time=${1:-'23:00'}
-ring=${2:-"${HOME}/storage/music/Renatus.mp3"}
+ring=${2:-'Renatus.mp3'}
 snooze=${3:-'300'}
 
 while true
